@@ -7,4 +7,4 @@
 2. Copy git link or download as ZIP
 3. (only if git link copied) open your terminal and type *git clone GITLINKHERE*
 4. (only if zip) go to where the zip file was downloaded. extract it to a safe place.
-5. open your shell and type java AdventureGame.java
+5. open your shell and type *java src/game/AdventureGame.java*
