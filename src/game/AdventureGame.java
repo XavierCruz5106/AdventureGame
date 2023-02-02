@@ -15,6 +15,8 @@ public class AdventureGame {
 
 
     public static SoundPlayerUsingClip sp = new SoundPlayerUsingClip();
+    public static SoundPlayerUsingClip music = new SoundPlayerUsingClip();
+    public static SoundPlayerUsingClip sp2 = new SoundPlayerUsingClip();
     public static Game game;
     public static Treasure treasure;
 
@@ -57,7 +59,7 @@ public class AdventureGame {
         game = new Game();
         in = new BufferedReader(new InputStreamReader(System.in));
         game.showIntro();
-        sp.playSound("music.wav");
+        music.playSound("music.wav");
         do {
             System.out.print("\u001b[38;5;93m~\u001b[38;5;231m ");
             input = in.readLine();

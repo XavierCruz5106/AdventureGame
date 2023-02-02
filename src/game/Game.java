@@ -14,6 +14,7 @@ import globals.ThingAndThingHolder;
 import javax.swing.*;
 
 public class Game implements java.io.Serializable {
+    boolean visited = false;
     private ArrayList<Room> map; // the map - an ArrayList of Rooms    
     public Actor player;  // the player - provides 'first person perspective'
     public Actor trader;
@@ -205,7 +206,9 @@ public class Game implements java.io.Serializable {
                     The_Self_Proclaimed_Giant.main(lol);
                     return s;
                 } else {
-                    s = "game not implemented yet.";
+                    System.out.println("you open the book");
+                    s = "you close the book, amazed at this new knowledge";
+                    Laying_Down_The_Law.main(lol);
                     return s;
                 }
             } else {
@@ -226,12 +229,14 @@ public class Game implements java.io.Serializable {
             {
                 if (!trader.inventory().contains("nothing"))
                 {
-                    AdventureGame.sp.playSound("talking.wav");
+                    AdventureGame.sp.playSound("mer.wav");
                     System.out.println("Ah hello see my wares:");
-                    s = "I hope you enjoy what you see";
                     showInventory(npc);
-                    return s;
+                    System.out.println("I hope you enjoy what you see");
+                    return "";
+
                 } else {
+                    AdventureGame.sp.playSound("merRestock.wav");
                     s = "you have bought all of my items. I must restock";
                     return s;
                 }
@@ -244,15 +249,15 @@ public class Game implements java.io.Serializable {
         } else if(wizard.getName().equals(npc)) {
             if (wizard.getLocation() == player.getLocation())
             {
-                AdventureGame.sp.playSound("talking.wav");
                 if (player.inventory().contains("strangebook") && player.inventory().contains("dirtybook") && player.inventory().contains("ancientbook"))
                 {
                     if (!wizard.inventory().contains("cartridge"))
                     {
+                        AdventureGame.sp.playSound("wizRestock.wav");
                         System.out.println("You have already received my reward. I have nothing left to give you");
                         return "";
                     } else {
-
+                        AdventureGame.sp.playSound("wizRec.wav");
                         System.out.println("AH. You have found my books. My old age is slowing me down you see.");
                         System.out.println("Im this close to retirement. How about you keep the books and become the future wizard.");
                         System.out.println("You can read every single one of these books using the `read` command.");
@@ -260,16 +265,14 @@ public class Game implements java.io.Serializable {
                         try {
                             Thread.sleep(1000);
 
-                        } catch (Exception e)
-                        {
-
-                        }
+                        } catch (Exception ignored){}
                         wizard.drop("cartridge");
                         player.take("cartridge");
                         System.out.println("The wizard handed you a strange cartridge.");
                         return "";
                     }
                 } else {
+                    AdventureGame.sp.playSound("startWiz.wav");
                     System.out.println("Youngblood i sense. Come closer");
                     System.out.println("You smell like a traveller");
                     System.out.println("Say, traveller i have a quest for you.");
@@ -326,7 +329,7 @@ public class Game implements java.io.Serializable {
         if (obname.equals("relic"))
         {
             Tetris.main(args);
-            s = "the small cartridge fits perfectly into the relic.\nthe game boots up";
+            s = "the small cartridge fits perfectly into the relic.\nthe game boots up\nTetris\nBy: Benjamin Bowman";
             return s;
         } else {
             s = "you must buy the relic from the trader first";
@@ -359,8 +362,31 @@ public class Game implements java.io.Serializable {
         return retStr;
     }
 
-    void movePlayerTo(Dir dir) {                
+    void movePlayerTo(Dir dir) {
         if (player.moveTo(dir)) {
+            if (player.getLocation().getName().equals("Rainbow Room"))
+            {
+                visited = true;
+                AdventureGame.music.stop();
+                AdventureGame.sp2.playSound("shop.wav");
+            } else if (visited){
+                visited = false;
+                AdventureGame.sp2.stop();
+                AdventureGame.music.playSound("music.wav");
+            } else {
+                if(player.getLocation().getName().equals("Wizard Tower")){
+                    visited = true;
+                    AdventureGame.music.stop();
+                    AdventureGame.sp2.playSound("wizard.wav");
+                } else if (visited)
+                {
+                    visited = false;
+                    AdventureGame.sp2.stop();
+                    AdventureGame.music.playSound("music.wav");
+                }
+            }
+
+
             look();            
         } else {
             showStr("No Exit!");

@@ -1,16 +1,15 @@
 package audio;
 
+import game.AdventureGame;
+
 import java.io.*;
 import javax.sound.sampled.*;
 import javax.swing.*;
 
 public class SoundPlayerUsingClip {
     private Clip clip;
-    public synchronized void playSound(String fileName) {
-        new Thread(new Runnable() {
-            // The wrapper thread is unnecessary, unless it blocks on the
-            // Clip finishing; see comments.
-            public void run() {
+    Thread thread;
+    public  void playSound(String fileName) {
                 try
                 {
                     clip = AudioSystem.getClip();
@@ -20,13 +19,26 @@ public class SoundPlayerUsingClip {
                     {
                         AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
                         clip.open(audioInput);
-                        if (fileName.equals("music.wav"))
-                        {
-                            setVolume(clip, 0.07F);
-                            clip.loop(Clip.LOOP_CONTINUOUSLY);
-                        } else {
-                            setVolume(clip, 0.3F);
+
+                        switch (fileName) {
+                            case "shop.wav" -> {
+                                setVolume(0.05F);
+                                clip.loop(Clip.LOOP_CONTINUOUSLY);
+                            }
+                            case "pokebat.wav" -> {
+                                setVolume(0.03F);
+                            }
+                            case "music.wav", "wizard.wav" -> {
+                                setVolume(0.03F);
+                                clip.loop(Clip.LOOP_CONTINUOUSLY);
+                            }
+                            case "wizRec.wav", "wizRestock.wav", "startWiz.wav", "mer.wav", "merRestock.wav" ->{
+                                setVolume(0.7F);
+                            }
+                            default -> setVolume(0.3F);
                         }
+
+
                         clip.start();
 
 
@@ -37,21 +49,37 @@ public class SoundPlayerUsingClip {
                 } catch(Exception ex) {
                     ex.printStackTrace();
                 }
-            }
-        }).start();
     }
 
 
-    public float getVolume(Clip clip)  {
+    public void stop()
+    {
+        clip.stop();
+        clip.close();
+    }
+
+
+    public float getVolume()  {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        return (float) Math.pow(10f, gainControl.getValue() / 20f);
+        return (float) Math.pow(10F, gainControl.getValue() / 20F);
     }
 
-    public void setVolume(Clip clip, float volume) {
-        if (volume < 0f || volume > 1f)
+    public void setVolume(float volume) {
+        if (volume < 0F || volume > 1F)
             throw new IllegalArgumentException("Volume not valid: " + volume);
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(20f * (float) Math.log10(volume));
+        gainControl.setValue(20F * (float) Math.log10(volume));
     }
+
+
+    // MAKE THREADED
+    public void fade(float volume, int millis) {
+        setVolume(0.003F);
+        try {
+            Thread.sleep(millis);
+        } catch (Exception ignored) {}
+        setVolume(volume);
+    }
+
 
 }

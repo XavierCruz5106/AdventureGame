@@ -1,6 +1,8 @@
 package code;
 
 
+import game.AdventureGame;
+
 import java.util.Scanner;
 
 public class fight extends Trainer {
@@ -128,6 +130,19 @@ public class fight extends Trainer {
                 menu.selectPlace();
                 break;
             case "Y":
+                if (AdventureGame.sp != null)
+                {
+                    AdventureGame.sp.stop();
+                }
+                try{
+                    AdventureGame.sp2.stop();
+                } catch (Exception ignored){}
+
+                if (AdventureGame.music != null)
+                {
+                    AdventureGame.music.stop();
+                }
+                AdventureGame.music.playSound("pokebat.wav");
                 choosePokemon(spawnedPokemon);
                 break;
         }

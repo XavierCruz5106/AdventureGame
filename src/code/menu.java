@@ -1,5 +1,7 @@
 package code;
 
+import game.AdventureGame;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
