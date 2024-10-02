@@ -1,4 +1,4 @@
-# Adventure Game By Xavier Cruz
+# Adventure Game By Xavier Cruz, David Smith, Benjamin Bowman, Darsh Patel
 
 
 ## to install
