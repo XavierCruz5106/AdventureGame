@@ -13,7 +13,7 @@ public class SoundPlayerUsingClip {
                 try
                 {
                     clip = AudioSystem.getClip();
-                    File musicPath = new File("res\\sfx\\" + fileName);
+                    File musicPath = new File("res/sfx/" + fileName);
 
                     if (musicPath.exists())
                     {
