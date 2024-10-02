@@ -1,4 +1,4 @@
-# Adventure Game By [Xavier Cruz](https://github.com/XavierCruz5106), [[David Smith]](https://github.com/dxsmith244), [Benjamin Bowman](https://github.com/BenjaminBowman), Darsh Patel
+# Adventure Game By [Xavier Cruz](https://github.com/XavierCruz5106), [David Smith](https://github.com/dxsmith244), [Benjamin Bowman](https://github.com/BenjaminBowman), Darsh Patel
 
 
 ## to install
